@@ -38,12 +38,14 @@
         inset: 0;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          visibility 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 3rem 2rem;
+        overflow-y: auto;
       }
 
       .screen.active {
@@ -51,7 +53,6 @@
         visibility: visible;
       }
 
-      /* ========== PANTALLA MONITOR ========== */
       #monitor-screen {
         background: linear-gradient(
           165deg,
@@ -61,20 +62,22 @@
         );
       }
 
-      .monitor-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-        gap: 3rem;
-      }
-
       .app-header {
         position: absolute;
         top: 2rem;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .app-logo {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        opacity: 0.95;
+        animation: fadeInDown 0.8s ease-out;
       }
 
       .app-title {
@@ -84,9 +87,31 @@
         color: rgba(255, 255, 255, 0.25);
         font-weight: 200;
         margin: 0;
+        animation: fadeInUp 0.8s ease-out 0.1s backwards;
       }
 
-      /* Círculo pulsante central */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 0.95;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       .pulse-container {
         position: relative;
         display: flex;
@@ -177,7 +202,6 @@
         }
       }
 
-      /* BPM Display */
       .bpm-display {
         text-align: center;
       }
@@ -200,7 +224,6 @@
         text-transform: uppercase;
       }
 
-      /* State Indicator */
       .state-indicator {
         position: absolute;
         bottom: 3rem;
@@ -237,7 +260,6 @@
         margin: 0;
       }
 
-      /* Botón Respirar - Única acción */
       .breathe-btn {
         position: absolute;
         bottom: 2rem;
@@ -256,12 +278,41 @@
         align-items: center;
         justify-content: center;
         font-weight: 200;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .breathe-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        opacity: 0;
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
       }
 
       .breathe-btn:hover {
         background: rgba(255, 255, 255, 0.12);
         border-color: rgba(255, 255, 255, 0.2);
         color: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 8px 24px rgba(78, 140, 135, 0.2);
+        transform: translateY(-2px);
       }
 
       .breathe-btn:active {
@@ -278,7 +329,6 @@
         stroke-linejoin: round;
       }
 
-      /* ========== PANTALLA RESPIRACIÓN ========== */
       #breathe-screen {
         background: linear-gradient(165deg, #4e8c87 0%, #c9c7e8 100%);
       }
@@ -336,7 +386,6 @@
         margin: 0;
       }
 
-      /* Círculo de respiración */
       .breathing-circle {
         width: 220px;
         height: 220px;
@@ -348,6 +397,26 @@
         box-shadow: 0 30px 80px rgba(78, 140, 135, 0.25);
         transition: all 4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         margin-bottom: 3rem;
+        position: relative;
+      }
+
+      .breathing-circle::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
       }
 
       .breathing-circle.inhale {
@@ -383,7 +452,6 @@
         line-height: 1;
       }
 
-      /* Indicadores de ciclo */
       .cycle-info {
         display: flex;
         flex-direction: column;
@@ -423,7 +491,6 @@
         margin: 0;
       }
 
-      /* Mensaje suave */
       .breathing-message {
         position: absolute;
         bottom: 2.5rem;
@@ -442,7 +509,6 @@
         opacity: 1;
       }
 
-      /* ========== MENÚ DE NAVEGACIÓN ========== */
       .menu-overlay {
         position: fixed;
         top: 0;
@@ -490,6 +556,20 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+
+      .menu-logo-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+      }
+
+      .menu-logo {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        opacity: 0.9;
       }
 
       .menu-title {
@@ -568,12 +648,14 @@
         background: rgba(78, 140, 135, 0.1);
         border-left-color: #4e8c87;
         padding-left: 2rem;
+        transform: translateX(4px);
       }
 
       .menu-link.active {
         color: #ffffff;
         background: rgba(78, 140, 135, 0.2);
         border-left-color: #4e8c87;
+        font-weight: 400;
       }
 
       .menu-icon {
@@ -587,7 +669,6 @@
         flex-shrink: 0;
       }
 
-      /* Botón hamburguesa */
       .menu-toggle {
         position: fixed;
         top: 2rem;
@@ -628,7 +709,6 @@
         transform: rotate(45deg);
       }
 
-      /* Stats screen */
       #stats-screen {
         background: linear-gradient(
           165deg,
@@ -684,6 +764,15 @@
         padding: 1.5rem 1rem;
         text-align: center;
         backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .stat-card:hover {
+        background: rgba(78, 140, 135, 0.15);
+        border-color: rgba(78, 140, 135, 0.4);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(78, 140, 135, 0.15);
       }
 
       .stat-value {
@@ -703,7 +792,6 @@
         margin: 0;
       }
 
-      /* Settings screen */
       #settings-screen {
         background: linear-gradient(
           165deg,
@@ -808,38 +896,107 @@
         left: 22px;
       }
 
-      /* Botón de info */
-      .info-button {
-        position: absolute;
-        bottom: 2rem;
-        background: rgba(78, 140, 135, 0.15);
-        border: 1px solid rgba(78, 140, 135, 0.3);
-        color: rgba(255, 255, 255, 0.6);
-        width: 56px;
-        height: 56px;
+      #instructions-screen {
+        background: linear-gradient(
+          165deg,
+          #0f1720 0%,
+          #1e2a38 50%,
+          #2a3f50 100%
+        );
+      }
+
+      .instructions-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        gap: 2rem;
+        padding: 2rem;
+      }
+
+      .instructions-header {
+        text-align: center;
+        width: 100%;
+      }
+
+      .instructions-title {
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: #ffffff;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: 0.05em;
+      }
+
+      .instructions-subtitle {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 200;
+      }
+
+      .instructions-list {
+        width: 100%;
+        max-width: 450px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .instruction-card {
+        background: rgba(78, 140, 135, 0.08);
+        border: 1px solid rgba(78, 140, 135, 0.15);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        gap: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .instruction-card:hover {
+        background: rgba(78, 140, 135, 0.12);
+        border-color: rgba(78, 140, 135, 0.25);
+        transform: translateX(4px);
+      }
+
+      .instruction-number {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        background: linear-gradient(135deg, #4e8c87 0%, #c9c7e8 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: "Outfit", sans-serif;
-        padding: 0;
+        font-size: 1.1rem;
+        font-weight: 300;
+        color: #ffffff;
+        text-align: center;
       }
 
-      .info-button:hover {
-        background: rgba(78, 140, 135, 0.25);
-        color: rgba(255, 255, 255, 0.8);
+      .instruction-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex: 1;
       }
 
-      .info-icon {
-        width: 24px;
-        height: 24px;
-        stroke: currentColor;
-        stroke-width: 1.2;
-        fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
+      .instruction-heading {
+        font-size: 0.95rem;
+        font-weight: 400;
+        color: #ffffff;
+        margin: 0;
+        letter-spacing: 0.02em;
+      }
+
+      .instruction-description {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.6;
+        margin: 0;
+        letter-spacing: 0.01em;
       }
     </style>
     <style>
@@ -852,7 +1009,6 @@
   </head>
   <body class="h-full w-full">
     <div id="app-container" class="h-full w-full">
-      <!-- ========== BOTÓN HAMBURGUESA ========== -->
       <button id="menu-toggle" class="menu-toggle">
         <svg viewbox="0 0 24 24">
           <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -860,12 +1016,19 @@
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </button>
-      <!-- ========== OVERLAY DEL MENÚ ========== -->
       <div id="menu-overlay" class="menu-overlay"></div>
-      <!-- ========== MENÚ LATERAL ========== -->
       <nav id="menu-sidebar" class="menu-sidebar">
         <div class="menu-header">
-          <h2 class="menu-title">Menú</h2>
+          <div class="menu-logo-section">
+            <img
+              src="https://raw.githubusercontent.com/alejandrabarcena/InnerRhythm/refs/heads/main/inner%20%20logo.png"
+              alt="Inner Rhythm Logo"
+              class="menu-logo"
+              loading="lazy"
+              onerror="console.error('Logo failed to load:', this.src); this.style.display='none';"
+            />
+            <h2 class="menu-title">Menú</h2>
+          </div>
           <button id="menu-close" class="menu-close">
             <svg viewbox="0 0 24 24">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -911,14 +1074,28 @@
               ><span id="menu-settings-text">Configuración</span>
             </button>
           </li>
+          <li class="menu-item">
+            <button class="menu-link" data-screen="instructions">
+              <svg class="menu-icon" viewbox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line></svg
+              ><span id="menu-instructions-text">Instrucciones</span>
+            </button>
+          </li>
         </ul>
       </nav>
-      <!-- ========== PANTALLA 1: MONITOR ========== -->
       <div id="monitor-screen" class="screen active">
         <div class="app-header">
+          <img
+            src="https://raw.githubusercontent.com/alejandrabarcena/InnerRhythm/refs/heads/main/inner%20%20logo.png"
+            alt="Inner Rhythm Logo"
+            class="app-logo"
+            loading="lazy"
+            onerror="console.error('Logo failed to load:', this.src); this.style.display='none';"
+          />
           <h1 id="app-title" class="app-title">Inner Rhythm</h1>
         </div>
-        <!-- Círculo pulsante -->
         <div class="pulse-container">
           <div class="pulse-ring"></div>
           <div class="pulse-ring"></div>
@@ -931,24 +1108,20 @@
             </svg>
           </div>
         </div>
-        <!-- BPM Display -->
         <div class="bpm-display">
           <p id="bpm-value" class="bpm-number">72</p>
           <p class="bpm-label">bpm</p>
         </div>
-        <!-- Indicador de estado -->
         <div class="state-indicator">
           <div id="state-dot" class="state-dot calm"></div>
           <p id="state-text" class="state-text">Calmado</p>
         </div>
-        <!-- Botón respirar - Única acción -->
         <button id="breathe-btn" class="breathe-btn">
           <svg class="breathe-icon" viewbox="0 0 24 24">
             <path d="M6 9h12M6 15h12M6 12h12" />
           </svg>
         </button>
       </div>
-      <!-- ========== PANTALLA 2: RESPIRACIÓN ========== -->
       <div id="breathe-screen" class="screen">
         <button id="back-btn" class="back-button">
           <svg class="back-icon" viewbox="0 0 24 24">
@@ -957,7 +1130,6 @@
         </button>
         <p class="breathing-title">Encuentra tu ritmo</p>
         <div class="breathe-content">
-          <!-- Círculo de respiración -->
           <div id="breathing-circle" class="breathing-circle">
             <div class="breathing-info">
               <p id="breathing-instruction" class="breathing-instruction">
@@ -966,7 +1138,6 @@
               <p id="breathing-timer" class="breathing-timer">3</p>
             </div>
           </div>
-          <!-- Información de ciclo -->
           <div class="cycle-info">
             <div class="cycle-dots">
               <div id="dot-1" class="cycle-dot"></div>
@@ -978,13 +1149,11 @@
               Ciclo <span id="cycle-number">1</span> de 4
             </p>
           </div>
-          <!-- Mensaje inspirador -->
           <p id="breathing-message" class="breathing-message">
             Tu cuerpo está aprendiendo a regularse
           </p>
         </div>
       </div>
-      <!-- ========== PANTALLA 3: ESTADÍSTICAS ========== -->
       <div id="stats-screen" class="screen">
         <button id="back-stats-btn" class="back-button">
           <svg class="back-icon" viewbox="0 0 24 24">
@@ -1016,7 +1185,6 @@
           </div>
         </div>
       </div>
-      <!-- ========== PANTALLA 4: CONFIGURACIÓN ========== -->
       <div id="settings-screen" class="screen">
         <button id="back-settings-btn" class="back-button">
           <svg class="back-icon" viewbox="0 0 24 24">
@@ -1055,106 +1223,97 @@
             </li>
           </ul>
         </div>
-        <button class="info-button">
-          <svg class="info-icon" viewbox="0 0 24 24">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </div>
+      <div id="instructions-screen" class="screen">
+        <button id="back-instructions-btn" class="back-button">
+          <svg class="back-icon" viewbox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-      </div>
-    </div>
-    <div class="app-header">
-      <h1 id="app-title" class="app-title">Inner Rhythm</h1>
-    </div>
-    <!-- Círculo pulsante -->
-    <div class="pulse-container">
-      <div class="pulse-ring"></div>
-      <div class="pulse-ring"></div>
-      <div class="pulse-ring"></div>
-      <div class="pulse-circle">
-        <svg class="pulse-icon" viewbox="0 0 24 24" fill="currentColor">
-          <path
-            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-          />
-        </svg>
-      </div>
-    </div>
-    <!-- BPM Display -->
-    <div class="bpm-display">
-      <p id="bpm-value" class="bpm-number">72</p>
-      <p class="bpm-label">bpm</p>
-    </div>
-    <!-- Indicador de estado -->
-    <div class="state-indicator">
-      <div id="state-dot" class="state-dot calm"></div>
-      <p id="state-text" class="state-text">Calmado</p>
-    </div>
-    <!-- Botón respirar - Única acción -->
-    <button id="breathe-btn" class="breathe-btn">
-      <svg class="breathe-icon" viewbox="0 0 24 24">
-        <path d="M6 9h12M6 15h12M6 12h12" />
-      </svg>
-    </button>
-    <!-- ========== PANTALLA 2: RESPIRACIÓN ========== -->
-    <div id="breathe-screen" class="screen">
-      <button id="back-btn" class="back-button">
-        <svg class="back-icon" viewbox="0 0 24 24">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </button>
-      <p class="breathing-title">Encuentra tu ritmo</p>
-      <div class="breathe-content">
-        <!-- Círculo de respiración -->
-        <div id="breathing-circle" class="breathing-circle">
-          <div class="breathing-info">
-            <p id="breathing-instruction" class="breathing-instruction">
-              Prepárate
-            </p>
-            <p id="breathing-timer" class="breathing-timer">3</p>
+        <div class="instructions-content">
+          <div class="instructions-header">
+            <h2 class="instructions-title">Cómo Usar</h2>
+            <p class="instructions-subtitle">Guía de Inner Rhythm</p>
+          </div>
+          <div class="instructions-list">
+            <div class="instruction-card">
+              <div class="instruction-number">1</div>
+              <div class="instruction-text">
+                <h3 class="instruction-heading">Monitor tu Ritmo</h3>
+                <p class="instruction-description">
+                  Visualiza tu frecuencia cardíaca en tiempo real. El indicador
+                  de estado cambia según tu nivel de calma o activación.
+                </p>
+              </div>
+            </div>
+            <div class="instruction-card">
+              <div class="instruction-number">2</div>
+              <div class="instruction-text">
+                <h3 class="instruction-heading">Inicia la Respiración</h3>
+                <p class="instruction-description">
+                  Presiona el botón "Respirar" para comenzar con ejercicios
+                  guiados de 4 ciclos. Sigue el ritmo del círculo.
+                </p>
+              </div>
+            </div>
+            <div class="instruction-card">
+              <div class="instruction-number">3</div>
+              <div class="instruction-text">
+                <h3 class="instruction-heading">Ciclo de Respiración</h3>
+                <p class="instruction-description">
+                  Cada ciclo incluye: inhala (4s), sostén (4s), exhala (6s). Los
+                  puntos indican tu progreso.
+                </p>
+              </div>
+            </div>
+            <div class="instruction-card">
+              <div class="instruction-number">4</div>
+              <div class="instruction-text">
+                <h3 class="instruction-heading">Revisa Estadísticas</h3>
+                <p class="instruction-description">
+                  Accede a tu historial de sesiones, minutos totales, BPM
+                  promedio y racha de consistencia.
+                </p>
+              </div>
+            </div>
+            <div class="instruction-card">
+              <div class="instruction-number">5</div>
+              <div class="instruction-text">
+                <h3 class="instruction-heading">Personaliza tu Experiencia</h3>
+                <p class="instruction-description">
+                  Desde Configuración, activa/desactiva notificaciones,
+                  vibraciones y sonidos según prefieras.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- Información de ciclo -->
-        <div class="cycle-info">
-          <div class="cycle-dots">
-            <div id="dot-1" class="cycle-dot"></div>
-            <div id="dot-2" class="cycle-dot"></div>
-            <div id="dot-3" class="cycle-dot"></div>
-            <div id="dot-4" class="cycle-dot"></div>
-          </div>
-          <p class="cycle-label">Ciclo <span id="cycle-number">1</span> de 4</p>
-        </div>
-        <!-- Mensaje inspirador -->
-        <p id="breathing-message" class="breathing-message">
-          Tu cuerpo est�� aprendiendo a regularse
-        </p>
       </div>
     </div>
     <script>
-      // Elementos del menú
       const menuToggle = document.getElementById("menu-toggle");
       const menuOverlay = document.getElementById("menu-overlay");
       const menuSidebar = document.getElementById("menu-sidebar");
       const menuClose = document.getElementById("menu-close");
       const menuLinks = document.querySelectorAll(".menu-link");
 
-      // Pantallas
       const screens = {
         monitor: document.getElementById("monitor-screen"),
         breathe: document.getElementById("breathe-screen"),
         stats: document.getElementById("stats-screen"),
         settings: document.getElementById("settings-screen"),
+        instructions: document.getElementById("instructions-screen"),
       };
 
       const backButtons = {
         breathe: document.getElementById("back-btn"),
         stats: document.getElementById("back-stats-btn"),
         settings: document.getElementById("back-settings-btn"),
+        instructions: document.getElementById("back-instructions-btn"),
       };
 
       let currentScreen = "monitor";
 
-      // Abrir/Cerrar menú
       function toggleMenu() {
         menuSidebar.classList.toggle("active");
         menuOverlay.classList.toggle("active");
@@ -1167,23 +1326,17 @@
         menuToggle.classList.remove("open");
       }
 
-      // Cambiar pantalla
       function switchScreen(screenName) {
-        // Detener respiración si está activa
         if (currentScreen === "breathe" && screenName !== "breathe") {
           stopBreathing();
         }
 
-        // Ocultar todas las pantallas
         Object.values(screens).forEach((screen) =>
           screen.classList.remove("active")
         );
-
-        // Mostrar la pantalla seleccionada
         screens[screenName].classList.add("active");
         currentScreen = screenName;
 
-        // Actualizar menú activo
         menuLinks.forEach((link) => {
           link.classList.remove("active");
           if (link.dataset.screen === screenName) {
@@ -1194,7 +1347,6 @@
         closeMenu();
       }
 
-      // Event listeners del menú
       menuToggle.addEventListener("click", toggleMenu);
       menuClose.addEventListener("click", closeMenu);
       menuOverlay.addEventListener("click", closeMenu);
@@ -1207,7 +1359,6 @@
         });
       });
 
-      // Botones de regreso
       backButtons.breathe.addEventListener("click", () =>
         switchScreen("monitor")
       );
@@ -1217,8 +1368,10 @@
       backButtons.settings.addEventListener("click", () =>
         switchScreen("monitor")
       );
+      backButtons.instructions.addEventListener("click", () =>
+        switchScreen("monitor")
+      );
 
-      // Toggle switches de configuración
       document
         .getElementById("toggle-notifications")
         .addEventListener("click", function () {
@@ -1240,7 +1393,6 @@
           this.classList.toggle("active");
         });
 
-      // Configuración por defecto
       const defaultConfig = {
         app_title: "Inner Rhythm",
         monitor_state_calm: "Calmado",
@@ -1261,13 +1413,11 @@
 
       let config = { ...defaultConfig };
 
-      // Estado
       let currentBPM = 72;
       let breathingActive = false;
       let currentCycle = 1;
       let bpmInterval = null;
 
-      // Elementos DOM
       const appTitle = document.getElementById("app-title");
       const bpmValue = document.getElementById("bpm-value");
       const stateDot = document.getElementById("state-dot");
@@ -1283,7 +1433,6 @@
       const cycleNumber = document.getElementById("cycle-number");
       const breathingMessage = document.getElementById("breathing-message");
 
-      // Simular BPM natural
       function simulateBPM() {
         const variation = (Math.random() - 0.5) * 8;
         currentBPM = Math.max(55, Math.min(110, currentBPM + variation));
@@ -1313,7 +1462,6 @@
         if (bpmInterval) clearInterval(bpmInterval);
       }
 
-      // Respiración guiada
       const messages = [
         "Tu cuerpo está aprendiendo a regularse",
         "Cada respiración te trae más calma",
@@ -1437,16 +1585,13 @@
         }
       }
 
-      // Botones de acción
       breatheBtn.addEventListener("click", () => switchScreen("breathe"));
 
-      // SDK: onConfigChange
       async function onConfigChange(newConfig) {
         config = { ...defaultConfig, ...newConfig };
 
         appTitle.textContent = config.app_title || defaultConfig.app_title;
 
-        // Actualizar textos del menú
         document.getElementById("menu-monitor-text").textContent =
           config.menu_monitor || defaultConfig.menu_monitor;
         document.getElementById("menu-breathing-text").textContent =
@@ -1456,7 +1601,6 @@
         document.getElementById("menu-settings-text").textContent =
           config.menu_settings || defaultConfig.menu_settings;
 
-        // Actualizar colores
         const primaryColor =
           config.primary_color || defaultConfig.primary_color;
         const secondaryColor =
@@ -1466,6 +1610,7 @@
         monitorScreen.style.background = `linear-gradient(165deg, ${primaryColor} 0%, #1a2942 40%, #243456 70%, #2d3f5a 100%)`;
         screens.stats.style.background = `linear-gradient(165deg, ${primaryColor} 0%, #1E2A38 50%, #2A3F50 100%)`;
         screens.settings.style.background = `linear-gradient(165deg, ${primaryColor} 0%, #1E2A38 50%, #2A3F50 100%)`;
+        screens.instructions.style.background = `linear-gradient(165deg, ${primaryColor} 0%, #1E2A38 50%, #2A3F50 100%)`;
         breatheScreen.style.background = `linear-gradient(165deg, ${primaryColor} 0%, #1a2840 40%, #243450 70%, #2a3a58 100%)`;
 
         const pulseCircle = document.querySelector(".pulse-circle");
@@ -1480,7 +1625,6 @@
         document.documentElement.style.setProperty("--font-size-ratio", ratio);
       }
 
-      // SDK: Capabilities
       function mapToCapabilities(config) {
         return {
           recolorables: [
@@ -1525,7 +1669,6 @@
         };
       }
 
-      // SDK: Edit panel values
       function mapToEditPanelValues(config) {
         return new Map([
           ["app_title", config.app_title || defaultConfig.app_title],
@@ -1554,7 +1697,6 @@
         ]);
       }
 
-      // Inicializar SDK
       if (window.elementSdk) {
         window.elementSdk.init({
           defaultConfig,
@@ -1565,7 +1707,6 @@
         config = window.elementSdk.config || config;
       }
 
-      // Inicializar app
       onConfigChange(config);
       startBPMSimulation();
     </script>
@@ -1576,7 +1717,7 @@
           if (b) {
             var d = b.createElement("script");
             d.innerHTML =
-              "window.__CF$cv$params={r:'9c9f38dca7beac61',t:'MTc3MDQyODg3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+              "window.__CF$cv$params={r:'9c9f6cdca25ceddf',t:'MTc3MDQzMTAwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
             b.getElementsByTagName("head")[0].appendChild(d);
           }
         }
