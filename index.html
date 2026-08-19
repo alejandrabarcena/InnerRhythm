@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full">
+<html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,6 +19,12 @@
         font-family: "Outfit", sans-serif;
         font-weight: 300;
         letter-spacing: 0.02em;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
       }
 
       html,
@@ -84,7 +90,7 @@
         font-size: 0.75rem;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.25);
+        color: rgba(255, 255, 255, 0.62);
         font-weight: 200;
         margin: 0;
         animation: fadeInUp 0.8s ease-out 0.1s backwards;
@@ -217,7 +223,7 @@
 
       .bpm-label {
         font-size: 0.7rem;
-        color: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.72);
         margin: 1rem 0 0 0;
         letter-spacing: 0.1em;
         font-weight: 200;
@@ -225,12 +231,12 @@
       }
 
       .state-indicator {
-        position: absolute;
-        bottom: 3rem;
+        position: static;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
+        margin-top: 0.85rem;
       }
 
       .state-dot {
@@ -252,7 +258,7 @@
 
       .state-text {
         font-size: 0.7rem;
-        color: rgba(255, 255, 255, 0.4);
+        color: rgba(255, 255, 255, 0.78);
         letter-spacing: 0.08em;
         text-transform: uppercase;
         font-weight: 200;
@@ -261,15 +267,14 @@
       }
 
       .breathe-btn {
-        position: absolute;
-        bottom: 2rem;
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.12);
         color: rgba(255, 255, 255, 0.7);
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        padding: 0;
+        min-width: 176px;
+        height: 48px;
+        border-radius: 999px;
+        padding: 0 1.25rem;
+        margin-top: 1.5rem;
         cursor: pointer;
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
@@ -280,6 +285,9 @@
         font-weight: 200;
         position: relative;
         overflow: hidden;
+        gap: 0.65rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
       }
 
       .breathe-btn::before {
@@ -320,13 +328,21 @@
       }
 
       .breathe-icon {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         stroke: currentColor;
         stroke-width: 1.2;
         fill: none;
         stroke-linecap: round;
         stroke-linejoin: round;
+      }
+
+      .simulation-note {
+        margin: 0.7rem 0 0;
+        color: rgba(255, 255, 255, 0.68);
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
       }
 
       #breathe-screen {
@@ -998,6 +1014,118 @@
         margin: 0;
         letter-spacing: 0.01em;
       }
+
+      @media (max-width: 480px) {
+        .screen {
+          width: 100%;
+          max-width: 100%;
+          padding: 5.5rem 1rem 1.5rem;
+          overflow-x: hidden;
+        }
+
+        .app-header {
+          top: 1.25rem;
+          gap: 0.35rem;
+        }
+
+        .app-logo {
+          width: 82px;
+          height: 82px;
+        }
+
+        .pulse-container {
+          width: 220px;
+          height: 220px;
+        }
+
+        .pulse-circle {
+          width: 160px;
+          height: 160px;
+        }
+
+        .pulse-icon {
+          width: 68px;
+          height: 68px;
+        }
+
+        .bpm-number {
+          font-size: 4.6rem;
+        }
+
+        .state-indicator {
+          margin-top: 0.7rem;
+        }
+
+        .stats-content,
+        .settings-content,
+        .instructions-content {
+          width: 100%;
+          max-width: 100%;
+          padding-left: 0;
+          padding-right: 0;
+        }
+
+        .instruction-card {
+          padding: 1rem;
+          gap: 0.85rem;
+        }
+      }
+
+      @media (max-height: 600px) {
+        .screen {
+          padding-top: 3.25rem;
+          padding-bottom: 0.75rem;
+        }
+
+        .app-header {
+          top: 0.55rem;
+        }
+
+        .app-logo {
+          width: 52px;
+          height: 52px;
+        }
+
+        .app-title {
+          display: none;
+        }
+
+        .pulse-container {
+          width: 150px;
+          height: 150px;
+        }
+
+        .pulse-circle {
+          width: 110px;
+          height: 110px;
+        }
+
+        .pulse-icon {
+          width: 48px;
+          height: 48px;
+        }
+
+        .bpm-number {
+          font-size: 3.6rem;
+        }
+
+        .bpm-label,
+        .simulation-note,
+        .state-indicator,
+        .breathe-btn {
+          margin-top: 0.45rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
     </style>
     <style>
       @view-transition {
@@ -1009,7 +1137,7 @@
   </head>
   <body class="h-full w-full">
     <div id="app-container" class="h-full w-full">
-      <button id="menu-toggle" class="menu-toggle">
+      <button id="menu-toggle" class="menu-toggle" aria-label="Open menu">
         <svg viewbox="0 0 24 24">
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -1021,15 +1149,15 @@
         <div class="menu-header">
           <div class="menu-logo-section">
             <img
-              src="https://raw.githubusercontent.com/alejandrabarcena/InnerRhythm/refs/heads/main/inner%20%20logo.png"
+              src="inner  logo.png"
               alt="Inner Rhythm Logo"
               class="menu-logo"
               loading="lazy"
               onerror="console.error('Logo failed to load:', this.src); this.style.display='none';"
             />
-            <h2 class="menu-title">Menú</h2>
+            <h2 class="menu-title">Menu</h2>
           </div>
-          <button id="menu-close" class="menu-close">
+          <button id="menu-close" class="menu-close" aria-label="Close menu">
             <svg viewbox="0 0 24 24">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -1052,7 +1180,7 @@
               <svg class="menu-icon" viewbox="0 0 24 24">
                 <circle cx="12" cy="12" r="9"></circle>
                 <path d="M12 7v10M17 12H7" /></svg
-              ><span id="menu-breathing-text">Respiración</span>
+              ><span id="menu-breathing-text">Breathing</span>
             </button>
           </li>
           <li class="menu-item">
@@ -1061,7 +1189,7 @@
                 <rect x="3" y="13" width="4" height="8"></rect>
                 <rect x="10" y="8" width="4" height="13"></rect>
                 <rect x="17" y="3" width="4" height="18"></rect></svg
-              ><span id="menu-stats-text">Estadísticas</span>
+              ><span id="menu-stats-text">Insights</span>
             </button>
           </li>
           <li class="menu-item">
@@ -1071,7 +1199,7 @@
                 <path
                   d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m6.08 0l4.24-4.24M1 12h6m6 0h6m-14.78 7.78l4.24-4.24m6.08 0l4.24 4.24"
                 /></svg
-              ><span id="menu-settings-text">Configuración</span>
+              ><span id="menu-settings-text">Settings</span>
             </button>
           </li>
           <li class="menu-item">
@@ -1080,7 +1208,7 @@
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="16" x2="12" y2="12"></line>
                 <line x1="12" y1="8" x2="12.01" y2="8"></line></svg
-              ><span id="menu-instructions-text">Instrucciones</span>
+              ><span id="menu-instructions-text">How it works</span>
             </button>
           </li>
         </ul>
@@ -1088,7 +1216,7 @@
       <div id="monitor-screen" class="screen active">
         <div class="app-header">
           <img
-            src="https://raw.githubusercontent.com/alejandrabarcena/InnerRhythm/refs/heads/main/inner%20%20logo.png"
+            src="inner  logo.png"
             alt="Inner Rhythm Logo"
             class="app-logo"
             loading="lazy"
@@ -1111,29 +1239,31 @@
         <div class="bpm-display">
           <p id="bpm-value" class="bpm-number">72</p>
           <p class="bpm-label">bpm</p>
+          <p class="simulation-note">Simulated heart-rate data</p>
         </div>
         <div class="state-indicator">
           <div id="state-dot" class="state-dot calm"></div>
-          <p id="state-text" class="state-text">Calmado</p>
+          <p id="state-text" class="state-text">Calm</p>
         </div>
-        <button id="breathe-btn" class="breathe-btn">
+        <button id="breathe-btn" class="breathe-btn" aria-label="Start breathing exercise">
           <svg class="breathe-icon" viewbox="0 0 24 24">
             <path d="M6 9h12M6 15h12M6 12h12" />
           </svg>
+          <span>Start breathing</span>
         </button>
       </div>
       <div id="breathe-screen" class="screen">
-        <button id="back-btn" class="back-button">
+        <button id="back-btn" class="back-button" aria-label="Back to monitor">
           <svg class="back-icon" viewbox="0 0 24 24">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-        <p class="breathing-title">Encuentra tu ritmo</p>
+        <p class="breathing-title">Find your rhythm</p>
         <div class="breathe-content">
           <div id="breathing-circle" class="breathing-circle">
             <div class="breathing-info">
               <p id="breathing-instruction" class="breathing-instruction">
-                Prepárate
+                Get ready
               </p>
               <p id="breathing-timer" class="breathing-timer">3</p>
             </div>
@@ -1146,78 +1276,78 @@
               <div id="dot-4" class="cycle-dot"></div>
             </div>
             <p class="cycle-label">
-              Ciclo <span id="cycle-number">1</span> de 4
+              Cycle <span id="cycle-number">1</span> of 4
             </p>
           </div>
           <p id="breathing-message" class="breathing-message">
-            Tu cuerpo está aprendiendo a regularse
+            Let your body settle into the rhythm
           </p>
         </div>
       </div>
       <div id="stats-screen" class="screen">
-        <button id="back-stats-btn" class="back-button">
+        <button id="back-stats-btn" class="back-button" aria-label="Back to monitor">
           <svg class="back-icon" viewbox="0 0 24 24">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
         <div class="stats-content">
           <div class="stats-header">
-            <h2 class="stats-title">Estadísticas</h2>
-            <p class="stats-subtitle">Esta semana</p>
+            <h2 class="stats-title">Insights</h2>
+            <p class="stats-subtitle">This week · Demo data</p>
           </div>
           <div class="stats-grid">
             <div class="stat-card">
               <p class="stat-value" id="stat-sessions">12</p>
-              <p class="stat-label">Sesiones</p>
+              <p class="stat-label">Sessions</p>
             </div>
             <div class="stat-card">
               <p class="stat-value" id="stat-minutes">48</p>
-              <p class="stat-label">Minutos</p>
+              <p class="stat-label">Minutes</p>
             </div>
             <div class="stat-card">
               <p class="stat-value" id="stat-avg-bpm">68</p>
-              <p class="stat-label">BPM Promedio</p>
+              <p class="stat-label">Average BPM</p>
             </div>
             <div class="stat-card">
               <p class="stat-value" id="stat-streak">5</p>
-              <p class="stat-label">Racha</p>
+              <p class="stat-label">Day streak</p>
             </div>
           </div>
         </div>
       </div>
       <div id="settings-screen" class="screen">
-        <button id="back-settings-btn" class="back-button">
+        <button id="back-settings-btn" class="back-button" aria-label="Back to monitor">
           <svg class="back-icon" viewbox="0 0 24 24">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
         <div class="settings-content">
           <div class="settings-header">
-            <h2 class="settings-title">Configuración</h2>
-            <p class="settings-subtitle">Personaliza tu experiencia</p>
+            <h2 class="settings-title">Settings</h2>
+            <p class="settings-subtitle">Customize your experience</p>
           </div>
           <ul class="settings-list">
             <li class="settings-item">
-              <p class="settings-label">Notificaciones</p>
-              <button class="toggle-switch active" id="toggle-notifications">
+              <p class="settings-label">Notifications</p>
+              <button class="toggle-switch active" id="toggle-notifications" aria-label="Notifications" aria-pressed="true">
                 <div class="toggle-thumb"></div>
               </button>
             </li>
             <li class="settings-item">
-              <p class="settings-label">Vibraciones</p>
-              <button class="toggle-switch" id="toggle-vibrations">
+              <p class="settings-label">Vibrations</p>
+              <button class="toggle-switch" id="toggle-vibrations" aria-label="Vibrations" aria-pressed="false">
                 <div class="toggle-thumb"></div>
               </button>
             </li>
             <li class="settings-item">
-              <p class="settings-label">Sonidos</p>
-              <button class="toggle-switch active" id="toggle-sounds">
+              <p class="settings-label">Sounds</p>
+              <button class="toggle-switch active" id="toggle-sounds" aria-label="Sounds" aria-pressed="true">
                 <div class="toggle-thumb"></div>
               </button>
             </li>
             <li class="settings-item">
-              <p class="settings-label">Modo nocturno</p>
-              <button class="toggle-switch" id="toggle-dark-mode">
+              <p class="settings-label">Dark mode</p>
+              <button class="toggle-switch" id="toggle-dark-mode" aria-label="Dark mode" aria-pressed="false">
                 <div class="toggle-thumb"></div>
               </button>
             </li>
@@ -1225,64 +1355,64 @@
         </div>
       </div>
       <div id="instructions-screen" class="screen">
-        <button id="back-instructions-btn" class="back-button">
+        <button id="back-instructions-btn" class="back-button" aria-label="Back to monitor">
           <svg class="back-icon" viewbox="0 0 24 24">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
         <div class="instructions-content">
           <div class="instructions-header">
-            <h2 class="instructions-title">Cómo Usar</h2>
-            <p class="instructions-subtitle">Guía de Inner Rhythm</p>
+            <h2 class="instructions-title">How it works</h2>
+            <p class="instructions-subtitle">Inner Rhythm prototype guide</p>
           </div>
           <div class="instructions-list">
             <div class="instruction-card">
               <div class="instruction-number">1</div>
               <div class="instruction-text">
-                <h3 class="instruction-heading">Monitor tu Ritmo</h3>
+                <h3 class="instruction-heading">Explore the rhythm monitor</h3>
                 <p class="instruction-description">
-                  Visualiza tu frecuencia cardíaca en tiempo real. El indicador
-                  de estado cambia según tu nivel de calma o activación.
+                  View simulated heart-rate data and see how the interface
+                  represents calm and elevated states.
                 </p>
               </div>
             </div>
             <div class="instruction-card">
               <div class="instruction-number">2</div>
               <div class="instruction-text">
-                <h3 class="instruction-heading">Inicia la Respiración</h3>
+                <h3 class="instruction-heading">Start a breathing session</h3>
                 <p class="instruction-description">
-                  Presiona el botón "Respirar" para comenzar con ejercicios
-                  guiados de 4 ciclos. Sigue el ritmo del círculo.
+                  Select “Start breathing” to begin four guided cycles. Follow
+                  the pace of the animated circle.
                 </p>
               </div>
             </div>
             <div class="instruction-card">
               <div class="instruction-number">3</div>
               <div class="instruction-text">
-                <h3 class="instruction-heading">Ciclo de Respiración</h3>
+                <h3 class="instruction-heading">Follow each breathing cycle</h3>
                 <p class="instruction-description">
-                  Cada ciclo incluye: inhala (4s), sostén (4s), exhala (6s). Los
-                  puntos indican tu progreso.
+                  Each cycle includes inhale (4s), hold (4s), and exhale (6s).
+                  The dots show your progress.
                 </p>
               </div>
             </div>
             <div class="instruction-card">
               <div class="instruction-number">4</div>
               <div class="instruction-text">
-                <h3 class="instruction-heading">Revisa Estadísticas</h3>
+                <h3 class="instruction-heading">Preview your insights</h3>
                 <p class="instruction-description">
-                  Accede a tu historial de sesiones, minutos totales, BPM
-                  promedio y racha de consistencia.
+                  Explore sample session totals, minutes, average BPM, and
+                  consistency streak data.
                 </p>
               </div>
             </div>
             <div class="instruction-card">
               <div class="instruction-number">5</div>
               <div class="instruction-text">
-                <h3 class="instruction-heading">Personaliza tu Experiencia</h3>
+                <h3 class="instruction-heading">Customize your experience</h3>
                 <p class="instruction-description">
-                  Desde Configuración, activa/desactiva notificaciones,
-                  vibraciones y sonidos según prefieras.
+                  Preview controls for notifications, vibrations, sounds, and
+                  dark mode. These controls are conceptual in this prototype.
                 </p>
               </div>
             </div>
@@ -1327,6 +1457,8 @@
       }
 
       function switchScreen(screenName) {
+        const previousScreen = currentScreen;
+
         if (currentScreen === "breathe" && screenName !== "breathe") {
           stopBreathing();
         }
@@ -1336,6 +1468,10 @@
         );
         screens[screenName].classList.add("active");
         currentScreen = screenName;
+
+        if (screenName === "breathe" && previousScreen !== "breathe") {
+          startBreathing();
+        }
 
         menuLinks.forEach((link) => {
           link.classList.remove("active");
@@ -1372,36 +1508,22 @@
         switchScreen("monitor")
       );
 
-      document
-        .getElementById("toggle-notifications")
-        .addEventListener("click", function () {
-          this.classList.toggle("active");
+      document.querySelectorAll(".toggle-switch").forEach((toggle) => {
+        toggle.addEventListener("click", function () {
+          const isActive = this.classList.toggle("active");
+          this.setAttribute("aria-pressed", String(isActive));
         });
-      document
-        .getElementById("toggle-vibrations")
-        .addEventListener("click", function () {
-          this.classList.toggle("active");
-        });
-      document
-        .getElementById("toggle-sounds")
-        .addEventListener("click", function () {
-          this.classList.toggle("active");
-        });
-      document
-        .getElementById("toggle-dark-mode")
-        .addEventListener("click", function () {
-          this.classList.toggle("active");
-        });
+      });
 
       const defaultConfig = {
         app_title: "Inner Rhythm",
-        monitor_state_calm: "Calmado",
-        monitor_state_active: "Activado",
-        breathing_title: "Encuentra tu ritmo",
+        monitor_state_calm: "Calm",
+        monitor_state_active: "Elevated",
+        breathing_title: "Find your rhythm",
         menu_monitor: "Monitor",
-        menu_breathing: "Respiración",
-        menu_stats: "Estadísticas",
-        menu_settings: "Configuración",
+        menu_breathing: "Breathing",
+        menu_stats: "Insights",
+        menu_settings: "Settings",
         primary_color: "#0F1720",
         secondary_color: "#4E8C87",
         accent_color: "#C9C7E8",
@@ -1463,10 +1585,10 @@
       }
 
       const messages = [
-        "Tu cuerpo está aprendiendo a regularse",
-        "Cada respiración te trae más calma",
-        "Estás exactamente donde necesitas estar",
-        "Tu ritmo es válido y aceptado",
+        "Let your body settle into the rhythm",
+        "Stay with a pace that feels comfortable",
+        "Notice each breath without judgment",
+        "Return to your natural rhythm whenever you need",
       ];
 
       function startBreathing() {
@@ -1476,7 +1598,7 @@
         cycleNumber.textContent = "1";
 
         breathingCircle.className = "breathing-circle";
-        breathingInstruction.textContent = "Prepárate";
+        breathingInstruction.textContent = "Get ready";
         breathingTimer.textContent = "3";
         breathingMessage.classList.remove("visible");
 
@@ -1496,7 +1618,7 @@
         if (!breathingActive) return;
 
         breathingCircle.className = "breathing-circle inhale";
-        breathingInstruction.textContent = "Inhala";
+        breathingInstruction.textContent = "Inhale";
         let inCount = 4;
         breathingTimer.textContent = inCount;
 
@@ -1508,7 +1630,7 @@
             clearInterval(inInterval);
 
             breathingCircle.className = "breathing-circle";
-            breathingInstruction.textContent = "Sostén";
+            breathingInstruction.textContent = "Hold";
             let holdCount = 4;
             breathingTimer.textContent = holdCount;
 
@@ -1520,7 +1642,7 @@
                 clearInterval(holdInterval);
 
                 breathingCircle.className = "breathing-circle exhale";
-                breathingInstruction.textContent = "Exhala";
+                breathingInstruction.textContent = "Exhale";
                 let exCount = 6;
                 breathingTimer.textContent = exCount;
 
@@ -1560,11 +1682,9 @@
         breathingTimer.textContent = "";
 
         breathingMessage.textContent =
-          "Ejercicio completado. Tu ritmo está más calmado ahora.";
+          "Session complete. Take a moment to notice how you feel.";
         breathingMessage.classList.add("visible");
 
-        currentBPM = Math.max(60, currentBPM - 12);
-        updateBPMDisplay();
       }
 
       function stopBreathing() {
